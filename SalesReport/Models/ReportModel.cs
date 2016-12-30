@@ -11,6 +11,7 @@ namespace SalesReport.Models
         public string[] States { get; set; }
         public string SelectedStateProvince { get; set; }
         public SalesRow[] TotalSales { get; set; }
+        public SalesQuantity[] TotalSalesQuantity { get; set; }
         //public int StateAndProvince { get; set; }
          
     }
@@ -20,4 +21,10 @@ namespace SalesReport.Models
         public string Product { get; set; }
         public decimal Amount { get; set; }
     }
+    public class SalesQuantity
+    {
+        public string Product { get; set; }
+        public Int32 Quantity { get; set; }
+    }
+
 }

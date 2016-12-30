@@ -22,6 +22,7 @@ namespace SalesReport.Controllers
             string connectionString = "Data Source=codingtemplesql.database.windows.net;Initial Catalog=AdventureWorks;Integrated Security=False;User ID=SalesUser;Password=CodingTempleStudent!;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             List<string> states = new List<string>();
             List<SalesRow> DollarSales = new List<SalesRow>();
+            List<SalesQuantity> QuantitySales = new List<Models.SalesQuantity>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {   
@@ -65,12 +66,37 @@ namespace SalesReport.Controllers
                             DollarSales.Add(r);
                         }
                     }
+                /////
+                SqlCommand QuantityCommand = connection.CreateCommand();
+                QuantityCommand.CommandText = "sp_GetTopSalesByQuantity";
+                QuantityCommand.CommandType = CommandType.StoredProcedure;
+                if (m.SelectedStateProvince == null)
+                {
+                    m.SelectedStateProvince = "This part took me a while";
+                    QuantityCommand.Parameters.AddWithValue("@StateProvince", m.SelectedStateProvince);
+                }
+                else
+                {
+                    QuantityCommand.Parameters.AddWithValue("@StateProvince", m.SelectedStateProvince);
+
+                }
 
 
+                using (SqlDataReader reader = QuantityCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        SalesQuantity k = new SalesQuantity();
+                        k.Product = reader.GetString(reader.GetOrdinal("Name"));
+                        k.Quantity = reader.GetInt32(reader.GetOrdinal("QuantitySold"));
+                        QuantitySales.Add(k);
+                    }
+                }
 
-                    connection.Close();
+                connection.Close();
                     m.States = states.ToArray();
                     m.TotalSales = DollarSales.ToArray();
+                    m.TotalSalesQuantity = QuantitySales.ToArray();
                 }
               
             return View(m);

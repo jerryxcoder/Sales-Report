@@ -36,14 +36,14 @@
     <br>
     <table class="table">
 
-        @foreach (var item in Model.TotalSales)
+        @foreach (var item in Model.TotalSalesQuantity)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(m => item.Product)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => item.Amount)
+                    @Html.DisplayFor(m => item.Quantity)
                 </td>
 
             </tr>
