@@ -1,0 +1,54 @@
+﻿@model SalesReport.Models.ReportModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="row">
+    <div class="col-xs-12">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+        {
+            <div class="form-horizontal">State/Province</div>
+            <div class="form-horizontal">
+                
+                @Html.DropDownListFor(m => m.SelectedStateProvince, Model.States.Select(x => new SelectListItem { Text = x, Value = x, Selected = x == Model.SelectedStateProvince }), new { @class = "form-control" })
+                
+                <input type="submit" value="Run Report" class="btn btn-primary" />
+            </div>
+         }
+    </div>
+  
+    <table class="table">
+        
+        @foreach (var item in Model.TotalSales)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Product)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Amount)
+                </td>
+                 
+            </tr>
+        }
+        
+    </table>
+    <br>
+    <table class="table">
+
+        @foreach (var item in Model.TotalSales)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Product)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Amount)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+     
+</div>
